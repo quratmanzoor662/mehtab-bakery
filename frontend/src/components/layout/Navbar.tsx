@@ -26,9 +26,12 @@ export function Navbar() {
   }, [open]);
 
   return (
-    <header
+    <motion.header
+      initial={{ y: -80, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
       className={[
-        "sticky top-0 z-50 transition-all duration-300",
+        "sticky top-0 z-50 transition-[background-color,box-shadow,border-color] duration-300",
         scrolled
           ? "border-b border-border/70 bg-background/90 shadow-[var(--shadow-soft)] backdrop-blur-md"
           : "border-b border-transparent bg-background/70 backdrop-blur-sm",
@@ -132,6 +135,6 @@ export function Navbar() {
           </motion.div>
         ) : null}
       </AnimatePresence>
-    </header>
+    </motion.header>
   );
 }

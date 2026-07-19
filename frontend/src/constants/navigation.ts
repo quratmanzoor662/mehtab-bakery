@@ -13,7 +13,7 @@ export const NAV_LINKS: NavLink[] = [
 
 export const RESERVE_CTA = {
   label: "Reserve Fresh Bread",
-  href: "#reserve",
+  href: "#breads",
 } as const;
 
 export const SITE = {

@@ -37,19 +37,27 @@ const features: Feature[] = [
 ];
 
 const container = {
-  hidden: { opacity: 0 },
+  hidden: {},
   visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.12, delayChildren: 0.1 },
+    transition: { staggerChildren: 0.14, delayChildren: 0.08 },
   },
 };
 
 const item = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as const },
+    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const },
+  },
+};
+
+const iconMotion = {
+  hidden: { opacity: 0, scale: 0.7 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const },
   },
 };
 
@@ -90,9 +98,12 @@ export function WhyChooseUs() {
                 transition={{ type: "spring", stiffness: 320, damping: 22 }}
                 className="rounded-[var(--radius-lg)] border border-border/60 bg-surface p-6 shadow-[var(--shadow-soft)] transition-shadow duration-300 hover:shadow-[var(--shadow-card)] sm:p-7"
               >
-                <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-[var(--radius-md)] bg-primary/10 text-primary">
+                <motion.div
+                  variants={iconMotion}
+                  className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-[var(--radius-md)] bg-primary/10 text-primary"
+                >
                   <Icon className="h-6 w-6" strokeWidth={1.75} aria-hidden />
-                </div>
+                </motion.div>
                 <h3 className="font-heading text-xl font-semibold text-text">
                   {feature.title}
                 </h3>

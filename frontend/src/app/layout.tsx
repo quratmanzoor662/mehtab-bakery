@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import { Navbar } from "@/components/layout/Navbar";
+import { WhatsAppFab } from "@/components/layout/WhatsAppFab";
+import { ReservationShell } from "@/features/reservation/ReservationShell";
 import "./globals.css";
 
 const inter = Inter({
@@ -29,8 +31,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
       <body className="min-h-screen font-body antialiased">
-        <Navbar />
-        {children}
+        <ReservationShell>
+          <Navbar />
+          {children}
+          <WhatsAppFab />
+        </ReservationShell>
       </body>
     </html>
   );

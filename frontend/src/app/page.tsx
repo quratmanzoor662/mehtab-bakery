@@ -1,6 +1,8 @@
 import { Hero } from "@/components/home/Hero";
 import { Story } from "@/components/home/Story";
 import { WhyChooseUs } from "@/components/home/WhyChooseUs";
+import { ProductGrid } from "@/components/home/ProductGrid";
+import { Contact } from "@/components/home/Contact";
 
 export default function HomePage() {
   return (
@@ -8,11 +10,9 @@ export default function HomePage() {
       <Hero />
       <Story />
       <WhyChooseUs />
-      {/* Anchors for nav links — sections to be built next */}
-      <div id="breads" />
+      <ProductGrid />
+      <Contact />
       <div id="bulk-orders" />
-      <div id="contact" />
-      <div id="reserve" />
     </main>
   );
 }
