@@ -21,6 +21,13 @@
 
 html {
   scroll-behavior: smooth;
+  /* Sticky navbar (~4rem) + breathing room for #anchors */
+  scroll-padding-top: 5rem;
+}
+
+html,
+body {
+  overflow-x: clip;
 }
 
 body {
@@ -29,9 +36,43 @@ body {
   font-family: var(--font-body), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 ::selection {
   background: color-mix(in srgb, var(--color-primary) 25%, white);
   color: var(--color-text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Admin order invoice — only shown when printing */
+.order-invoice-print {
+  display: none;
+}
+
+@media print {
+  body * {
+    visibility: hidden !important;
+  }
+
+  .order-invoice-print,
+  .order-invoice-print * {
+    visibility: visible !important;
+  }
+
+  .order-invoice-print {
+    display: block !important;
+    position: absolute;
+    inset: 0;
+    background: white;
+  }
+
+  .print\:hidden {
+    display: none !important;
+  }
 }

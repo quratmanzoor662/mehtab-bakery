@@ -16,14 +16,14 @@ export function Hero() {
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_rgba(212,160,23,0.14),_transparent_55%),radial-gradient(ellipse_at_bottom_right,_rgba(139,69,19,0.1),_transparent_50%)]"
       />
 
-      <Container className="relative grid items-center gap-8 py-12 sm:gap-10 sm:py-16 lg:grid-cols-2 lg:gap-x-14 lg:gap-y-6 lg:py-20 xl:gap-x-16">
+      <Container className="relative grid items-center gap-6 py-8 sm:gap-10 sm:py-16 lg:grid-cols-2 lg:gap-x-14 lg:gap-y-6 lg:py-20 xl:gap-x-16">
         {/* Brand copy — first on all breakpoints */}
         <div className="order-1 max-w-xl lg:col-start-1 lg:row-start-1">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.15, ease: EASE }}
-            className="font-heading text-4xl leading-[1.1] font-semibold text-text sm:text-5xl lg:text-[3.5rem] xl:text-6xl"
+            className="font-heading text-[1.85rem] leading-[1.12] font-semibold text-text sm:text-5xl lg:text-[3.5rem] xl:text-6xl"
           >
             {SITE.name}
           </motion.h1>
@@ -32,7 +32,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, delay: 0.28, ease: EASE }}
-            className="mt-4 max-w-md text-lg leading-relaxed text-text-muted sm:mt-5 sm:text-xl"
+            className="mt-3 max-w-md text-base leading-relaxed text-text-muted sm:mt-5 sm:text-xl"
           >
             {SITE.tagline}
           </motion.p>
@@ -79,12 +79,17 @@ export function Hero() {
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.55, ease: EASE }}
-            className="flex flex-col gap-3 sm:flex-row sm:items-center"
+            className="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:gap-3"
           >
-            <Button href={RESERVE_CTA.href} size="lg">
+            <Button href={RESERVE_CTA.href} size="lg" className="w-full sm:w-auto">
               {RESERVE_CTA.label}
             </Button>
-            <Button href="#breads" variant="outline" size="lg">
+            <Button
+              href="#breads"
+              variant="outline"
+              size="lg"
+              className="w-full sm:w-auto"
+            >
               Explore Our Breads
             </Button>
           </motion.div>
@@ -93,7 +98,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45, delay: 0.7, ease: EASE }}
-            className="mt-6 space-y-1.5"
+            className="mt-5 space-y-1.5 sm:mt-6"
           >
             <p className="text-sm font-medium tracking-wide text-text">
               <span className="mr-1.5 text-secondary" aria-hidden>

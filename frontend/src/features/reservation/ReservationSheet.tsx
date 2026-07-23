@@ -1,14 +1,15 @@
 "use client";
 
-import { type FormEvent, useMemo } from "react";
+import { type FormEvent, useEffect, useMemo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Minus, Plus, Trash2, X } from "lucide-react";
 import { useReservation } from "@/features/reservation/ReservationContext";
-import { PRODUCT_MAP, PICKUP_TIME_SLOTS } from "@/constants/products";
+import { PRODUCT_MAP, PICKUP_TIME_SLOTS, MIN_RESERVATION_AMOUNT } from "@/constants/products";
 import { Button } from "@/components/ui/Button";
 import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
-import { todayDateInputValue } from "@/lib/reservation";
+import { todayDateInputValue, tomorrowDateInputValue } from "@/lib/reservation";
 import type { ReservationStep } from "@/types/reservation";
+import { useBakerySettings } from "@/contexts/SettingsContext";
 
 const STEPS: ReservationStep[] = ["cart", "details", "confirm"];
 
@@ -50,8 +51,19 @@ export function ReservationSheet() {
     clearReservation,
   } = useReservation();
 
+  const { futurePickupOnly, orderingAllowed } = useBakerySettings();
   const detailsValid = useMemo(() => isDetailsValid(customer), [customer]);
-  const minDate = todayDateInputValue();
+  const minDate = futurePickupOnly
+    ? tomorrowDateInputValue()
+    : todayDateInputValue();
+
+  useEffect(() => {
+    if (!sheetOpen || !futurePickupOnly) return;
+    const tomorrow = tomorrowDateInputValue();
+    if (customer.pickupDate !== tomorrow) {
+      updateCustomer({ pickupDate: tomorrow });
+    }
+  }, [sheetOpen, futurePickupOnly, customer.pickupDate, updateCustomer]);
 
   const onDetailsSubmit = (event: FormEvent) => {
     event.preventDefault();
@@ -84,16 +96,16 @@ export function ReservationSheet() {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 40, opacity: 0 }}
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="relative z-10 flex max-h-[92vh] w-full max-w-lg flex-col overflow-hidden rounded-t-[var(--radius-xl)] bg-surface shadow-[var(--shadow-card)] sm:rounded-[var(--radius-xl)]"
+            className="relative z-10 flex max-h-[min(92dvh,92vh)] w-full max-w-lg flex-col overflow-hidden rounded-t-[var(--radius-xl)] bg-surface shadow-[var(--shadow-card)] sm:rounded-[var(--radius-xl)]"
           >
-            <div className="flex items-start justify-between gap-3 border-b border-border/70 px-5 py-4">
+            <div className="flex items-start justify-between gap-3 border-b border-border/70 px-4 py-3.5 sm:px-5 sm:py-4">
               <div>
                 <p className="text-xs font-medium tracking-wide text-text-muted uppercase">
                   Step {STEPS.indexOf(step) + 1} of {STEPS.length}
                 </p>
                 <h2
                   id="reservation-sheet-title"
-                  className="font-heading mt-1 text-xl font-semibold text-text"
+                  className="font-heading mt-1 text-lg font-semibold text-text sm:text-xl"
                 >
                   {STEP_LABELS[step]}
                 </h2>
@@ -101,14 +113,14 @@ export function ReservationSheet() {
               <button
                 type="button"
                 onClick={closeSheet}
-                className="rounded-[var(--radius-md)] p-2 text-text-muted transition-colors hover:bg-primary/5 hover:text-text"
+                className="flex h-11 w-11 items-center justify-center rounded-[var(--radius-md)] text-text-muted transition-colors hover:bg-primary/5 hover:text-text"
                 aria-label="Close"
               >
                 <X className="h-5 w-5" />
               </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto px-5 py-4">
+            <div className="flex-1 overflow-y-auto px-4 py-4 sm:px-5">
               {step === "cart" ? (
                 <div className="space-y-4">
                   {items.length === 0 ? (
@@ -122,44 +134,44 @@ export function ReservationSheet() {
                       return (
                         <div
                           key={item.productId}
-                          className="flex items-center gap-3 rounded-[var(--radius-md)] border border-border/60 p-3"
+                          className="flex items-center gap-2 rounded-[var(--radius-md)] border border-border/60 p-3 sm:gap-3"
                         >
                           <div className="min-w-0 flex-1">
                             <p className="font-heading font-semibold text-text">
                               {product.name}
                             </p>
                             <p className="text-xs text-text-muted">
-                              ₹{product.price} · min {product.minOrder}
+                              ₹{product.price} each
                             </p>
                           </div>
-                          <div className="flex items-center gap-1.5">
+                          <div className="flex items-center gap-1">
                             <button
                               type="button"
-                              className="rounded-full border border-border p-1.5 text-text hover:bg-primary/5"
+                              className="flex h-11 w-11 items-center justify-center rounded-full border border-border text-text hover:bg-primary/5"
                               aria-label={`Decrease ${product.name}`}
                               onClick={() =>
                                 setQuantity(item.productId, item.quantity - 1)
                               }
                             >
-                              <Minus className="h-3.5 w-3.5" />
+                              <Minus className="h-4 w-4" />
                             </button>
-                            <span className="w-8 text-center text-sm font-semibold">
+                            <span className="w-7 text-center text-sm font-semibold sm:w-8">
                               {item.quantity}
                             </span>
                             <button
                               type="button"
-                              className="rounded-full border border-border p-1.5 text-text hover:bg-primary/5"
+                              className="flex h-11 w-11 items-center justify-center rounded-full border border-border text-text hover:bg-primary/5"
                               aria-label={`Increase ${product.name}`}
                               onClick={() =>
                                 setQuantity(item.productId, item.quantity + 1)
                               }
                             >
-                              <Plus className="h-3.5 w-3.5" />
+                              <Plus className="h-4 w-4" />
                             </button>
                           </div>
                           <button
                             type="button"
-                            className="rounded-[var(--radius-md)] p-2 text-text-muted hover:bg-primary/5 hover:text-primary"
+                            className="flex h-11 w-11 items-center justify-center rounded-[var(--radius-md)] text-text-muted hover:bg-primary/5 hover:text-primary"
                             aria-label={`Remove ${product.name}`}
                             onClick={() => removeProduct(item.productId)}
                           >
@@ -176,6 +188,12 @@ export function ReservationSheet() {
                         <span>{pieceCount} pieces</span>
                         <span className="font-semibold">Est. ₹{subtotal}</span>
                       </div>
+                      {subtotal < MIN_RESERVATION_AMOUNT ? (
+                        <p className="mt-2 text-xs text-accent">
+                          Add more breads to reach the ₹{MIN_RESERVATION_AMOUNT}{" "}
+                          minimum (any mix is fine).
+                        </p>
+                      ) : null}
                       {isBulk ? (
                         <p className="mt-2 text-xs text-accent">
                           Bulk order (over 50 pieces). Final price will be
@@ -230,11 +248,17 @@ export function ReservationSheet() {
                         type="date"
                         min={minDate}
                         value={customer.pickupDate}
+                        readOnly={futurePickupOnly}
                         onChange={(event) =>
                           updateCustomer({ pickupDate: event.target.value })
                         }
-                        className="w-full rounded-[var(--radius-md)] border border-border bg-background px-3 py-2.5 text-sm text-text outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+                        className="w-full rounded-[var(--radius-md)] border border-border bg-background px-3 py-2.5 text-sm text-text outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 read-only:bg-primary/5"
                       />
+                      {futurePickupOnly ? (
+                        <span className="text-xs text-text-muted">
+                          Bakery is closed today — pickup is set to tomorrow.
+                        </span>
+                      ) : null}
                     </label>
                     <label className="block space-y-1.5">
                       <span className="text-sm font-medium text-text">
@@ -327,14 +351,14 @@ export function ReservationSheet() {
 
                   <p className="text-xs leading-relaxed text-text-muted">
                     Confirming opens WhatsApp with your reservation. The bakery
-                    must confirm before it is final. If WhatsApp doesn&apos;t
-                    send, your reservation stays saved for your next visit.
+                    must confirm before it is final. After WhatsApp opens, this
+                    cart is cleared and you return to the homepage.
                   </p>
                 </div>
               ) : null}
             </div>
 
-            <div className="flex flex-col gap-2 border-t border-border/70 px-5 py-4 sm:flex-row sm:justify-between">
+            <div className="flex flex-col gap-2 border-t border-border/70 px-4 py-3.5 pb-[max(1rem,env(safe-area-inset-bottom))] sm:flex-row sm:justify-between sm:px-5 sm:py-4">
               {step === "cart" ? (
                 <>
                   <Button
@@ -348,7 +372,9 @@ export function ReservationSheet() {
                   <Button
                     type="button"
                     onClick={() => setStep("details")}
-                    disabled={items.length === 0}
+                    disabled={
+                      items.length === 0 || subtotal < MIN_RESERVATION_AMOUNT
+                    }
                   >
                     Continue
                   </Button>
@@ -389,7 +415,7 @@ export function ReservationSheet() {
                     className="bg-[#25D366] hover:bg-[#1ebe57] focus-visible:ring-[#25D366]"
                   >
                     <WhatsAppIcon className="h-4 w-4" />
-                    Send on WhatsApp
+                    Confirm on WhatsApp
                   </Button>
                 </>
               ) : null}

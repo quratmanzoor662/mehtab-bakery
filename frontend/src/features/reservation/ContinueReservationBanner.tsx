@@ -3,19 +3,20 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useReservation } from "@/features/reservation/ReservationContext";
 import { Button } from "@/components/ui/Button";
+import { useBakerySettings } from "@/contexts/SettingsContext";
 
+/** Shown only for an unfinished (pending) reservation — never after WhatsApp confirm. */
 export function ContinueReservationBanner() {
   const {
-    hasDraft,
-    status,
+    hasPendingReservation,
     sheetOpen,
     pieceCount,
     continueReservation,
     clearReservation,
   } = useReservation();
+  const { orderingAllowed } = useBakerySettings();
 
-  const show =
-    hasDraft && status === "awaiting_whatsapp" && !sheetOpen;
+  const show = hasPendingReservation && !sheetOpen && orderingAllowed;
 
   return (
     <AnimatePresence>
@@ -30,9 +31,8 @@ export function ContinueReservationBanner() {
         >
           <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
             <p className="text-sm text-text">
-              You have a saved reservation ({pieceCount} pieces). Continue where
-              you left off — your order is still saved if WhatsApp didn&apos;t
-              send.
+              You have a pending reservation ({pieceCount} pieces). Continue to
+              finish, or discard to start fresh.
             </p>
             <div className="flex shrink-0 gap-2">
               <Button

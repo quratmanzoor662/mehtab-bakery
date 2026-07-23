@@ -78,9 +78,11 @@ export function HeroCarousel() {
 
   return (
     <div
-      className="relative aspect-[4/3] overflow-hidden rounded-[var(--radius-xl)] shadow-[var(--shadow-card)] lg:aspect-[5/4]"
+      className="relative aspect-[5/4] max-h-[min(52vh,22rem)] overflow-hidden rounded-[var(--radius-xl)] shadow-[var(--shadow-card)] sm:max-h-none sm:aspect-[4/3] lg:aspect-[5/4]"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
+      onTouchStart={() => setPaused(true)}
+      onTouchEnd={() => setPaused(false)}
       role="region"
       aria-roledescription="carousel"
       aria-label="Fresh breads from Mehtab Bakery"
@@ -159,7 +161,7 @@ export function HeroCarousel() {
         type="button"
         aria-label="Previous bread"
         onClick={prev}
-        className="absolute top-1/2 left-2 z-[3] flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-background/80 text-text shadow-[var(--shadow-soft)] backdrop-blur-sm transition-colors hover:bg-background sm:left-3 sm:h-10 sm:w-10"
+        className="absolute top-1/2 left-1.5 z-[3] flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-background/85 text-text shadow-[var(--shadow-soft)] backdrop-blur-sm transition-colors hover:bg-background sm:left-3 sm:h-10 sm:w-10"
       >
         <ChevronLeft className="h-5 w-5" strokeWidth={1.75} />
       </button>
@@ -167,13 +169,13 @@ export function HeroCarousel() {
         type="button"
         aria-label="Next bread"
         onClick={next}
-        className="absolute top-1/2 right-2 z-[3] flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-background/80 text-text shadow-[var(--shadow-soft)] backdrop-blur-sm transition-colors hover:bg-background sm:right-3 sm:h-10 sm:w-10"
+        className="absolute top-1/2 right-1.5 z-[3] flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-background/85 text-text shadow-[var(--shadow-soft)] backdrop-blur-sm transition-colors hover:bg-background sm:right-3 sm:h-10 sm:w-10"
       >
         <ChevronRight className="h-5 w-5" strokeWidth={1.75} />
       </button>
 
       <div
-        className="absolute bottom-4 right-3 z-[3] flex items-center gap-1.5 sm:bottom-5 sm:right-4"
+        className="absolute bottom-3 right-2 z-[3] flex items-center gap-1 sm:bottom-5 sm:right-4 sm:gap-1.5"
         role="tablist"
         aria-label="Carousel slides"
       >
@@ -185,13 +187,17 @@ export function HeroCarousel() {
             aria-selected={i === index}
             aria-label={`Show ${item.name}`}
             onClick={() => goTo(i)}
-            className={[
-              "h-2 rounded-full transition-all duration-300",
-              i === index
-                ? "w-5 bg-secondary"
-                : "w-2 bg-white/55 hover:bg-white/80",
-            ].join(" ")}
-          />
+            className="flex h-11 w-11 items-center justify-center sm:h-8 sm:w-8"
+          >
+            <span
+              className={[
+                "block h-2 rounded-full transition-all duration-300",
+                i === index
+                  ? "w-5 bg-secondary"
+                  : "w-2 bg-white/55 hover:bg-white/80",
+              ].join(" ")}
+            />
+          </button>
         ))}
       </div>
     </div>

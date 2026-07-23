@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
 
 const WHATSAPP_URL =
-  "https://wa.me/919320630345?text=Hello%20Mehtab%20Bakery%2C%20I%20would%20like%20to%20reserve%20fresh%20bread.";
+  "https://wa.me/919149706733?text=Hello%20Mehtab%20Bakery%2C%20I%20would%20like%20to%20reserve%20fresh%20bread.";
 
 export function WhatsAppFab() {
   return (

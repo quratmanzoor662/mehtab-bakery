@@ -3,13 +3,10 @@
 import { motion } from "framer-motion";
 import { MapPin, Clock, Phone } from "lucide-react";
 import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
+import { CONTACT, getWhatsAppChatUrl } from "@/constants/contact";
 import type { ReactNode } from "react";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
-
-const PHONE_DISPLAY = "+91 9320630345";
-const PHONE_TEL = "+919320630345";
-const WHATSAPP_URL = `https://wa.me/919320630345`;
 
 type ContactCard = {
   title: string;
@@ -31,15 +28,15 @@ const cards: ContactCard[] = [
   },
   {
     title: "Phone",
-    body: PHONE_DISPLAY,
+    body: CONTACT.phoneDisplay,
     icon: <Phone className="h-5 w-5" strokeWidth={1.75} aria-hidden />,
-    href: `tel:${PHONE_TEL}`,
+    href: `tel:${CONTACT.phoneTel}`,
   },
   {
     title: "WhatsApp",
     body: "Message us to reserve fresh bread",
     icon: <WhatsAppIcon className="h-5 w-5" />,
-    href: WHATSAPP_URL,
+    href: getWhatsAppChatUrl(),
   },
 ];
 
@@ -61,7 +58,7 @@ const item = {
 
 export function Contact() {
   return (
-    <section id="contact" className="bg-background py-16 sm:py-20 lg:py-28">
+    <section id="contact" className="bg-background py-12 sm:py-20 lg:py-28">
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 18 }}
@@ -70,10 +67,10 @@ export function Contact() {
           transition={{ duration: 0.55, ease: EASE }}
           className="mx-auto max-w-2xl text-center"
         >
-          <h2 className="font-heading text-3xl font-semibold text-text sm:text-4xl lg:text-[2.5rem]">
+          <h2 className="font-heading text-[1.75rem] font-semibold text-text sm:text-4xl lg:text-[2.5rem]">
             Visit or Reach Us
           </h2>
-          <p className="mt-4 text-base leading-relaxed text-text-muted sm:text-lg">
+          <p className="mt-3 text-sm leading-relaxed text-text-muted sm:mt-4 sm:text-lg">
             Find us in Wavoora Lolab, or get in touch to reserve your bread.
           </p>
         </motion.div>

@@ -1,11 +1,12 @@
 import type { Product } from "@/types/product";
+import { CONTACT } from "@/constants/contact";
 
 export const PRODUCTS: Product[] = [
   {
     id: "girda",
     name: "Girda",
     price: 10,
-    minOrder: 5,
+    minOrder: 1,
     description:
       "Soft, round Kashmiri bread—fresh from the tandoor and perfect for every morning.",
     image: "/images/products/girda.jpg",
@@ -15,7 +16,7 @@ export const PRODUCTS: Product[] = [
     id: "tailwoor",
     name: "Tailwoor",
     price: 5,
-    minOrder: 10,
+    minOrder: 1,
     description:
       "Light and flaky traditional Tailwoor, baked daily for a crisp, comforting bite.",
     image: "/images/products/tailwoor.jpeg",
@@ -25,7 +26,7 @@ export const PRODUCTS: Product[] = [
     id: "kulcha",
     name: "Kulcha",
     price: 10,
-    minOrder: 5,
+    minOrder: 1,
     description:
       "Golden Kashmiri Kulcha with a tender crumb—ideal with tea or a hearty meal.",
     image: "/images/products/kulcha.jpeg",
@@ -35,7 +36,7 @@ export const PRODUCTS: Product[] = [
     id: "bakirkhani",
     name: "Bakirkhani",
     price: 10,
-    minOrder: 5,
+    minOrder: 1,
     description:
       "Layered, buttery Bakirkhani crafted with authentic recipes and quality ingredients.",
     image: "/images/products/bakirkhani.jpeg",
@@ -46,6 +47,9 @@ export const PRODUCTS: Product[] = [
 export const PRODUCT_MAP = Object.fromEntries(
   PRODUCTS.map((product) => [product.id, product]),
 ) as Record<Product["id"], Product>;
+
+/** Minimum total reservation value in rupees (cart total, any mix of breads). */
+export const MIN_RESERVATION_AMOUNT = 50;
 
 export const BULK_THRESHOLD = 50;
 export const BULK_MIN_CUSTOM_PRICE = 7;
