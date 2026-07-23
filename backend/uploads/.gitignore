@@ -1,0 +1,3 @@
+# Keep folder structure; ignore uploaded binaries
+products/*
+!products/.gitkeep

@@ -1,0 +1,9 @@
+PyJWT
+bcrypt
+email-validator
+fastapi
+pydantic
+pymongo
+python-dotenv
+python-multipart
+uvicorn

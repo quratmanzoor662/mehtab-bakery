@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-primary: #8b4513;
+  --color-primary-dark: #6b3410;
+  --color-secondary: #d4a017;
+  --color-accent: #c65d00;
+  --color-background: #fff8f0;
+  --color-surface: #ffffff;
+  --color-text: #2c1810;
+  --color-text-muted: #6b5344;
+  --color-border: #e8d5c4;
+  --font-heading: var(--font-playfair);
+  --font-body: var(--font-inter);
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 32px;
+  --shadow-soft: 0 8px 30px rgb(44 24 16 / 0.08);
+  --shadow-card: 0 12px 40px rgb(44 24 16 / 0.12);
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Sticky navbar (~4rem) + breathing room for #anchors */
+  scroll-padding-top: 5rem;
+}
+
+html,
+body {
+  overflow-x: clip;
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-text);
+  font-family: var(--font-body), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-primary) 25%, white);
+  color: var(--color-text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Admin order invoice — only shown when printing */
+.order-invoice-print {
+  display: none;
+}
+
+@media print {
+  body * {
+    visibility: hidden !important;
+  }
+
+  .order-invoice-print,
+  .order-invoice-print * {
+    visibility: visible !important;
+  }
+
+  .order-invoice-print {
+    display: block !important;
+    position: absolute;
+    inset: 0;
+    background: white;
+  }
+
+  .print\:hidden {
+    display: none !important;
+  }
+}
